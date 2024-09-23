@@ -1,0 +1,18 @@
+# GraphQL schema for Post
+
+type Post {
+  id: ID!
+  title: String!
+  description: String!
+  user_id: Uint64!
+  user: User!
+  created_at: Timestamp
+  updated_at: Timestamp
+  deleted_at: Timestamp
+}
+
+input NewPost {
+  title: String!
+  description: String!
+  user_id: Uint64!
+}

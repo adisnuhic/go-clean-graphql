@@ -1,0 +1,28 @@
+version: "3.3"
+services:
+  db_graph:
+    platform: linux/amd64
+    image: mysql:8.1
+    container_name: db_graph
+    hostname: db_graph
+    restart: on-failure
+    ports:
+      - "3306:3306"
+    volumes:
+      - api_graph_clean_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: graph
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+  api_graph_clean:
+    build: ./
+    container_name: api_graph_clean
+    depends_on:
+      - db_graph
+    env_file: ./.env
+    restart: on-failure
+    ports:
+      - "8080:8080"
+volumes:
+  api_graph_clean_data:        

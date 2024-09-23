@@ -1,0 +1,4 @@
+# Place where we declare scalars
+
+scalar Uint64
+scalar Timestamp

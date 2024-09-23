@@ -1,0 +1,15 @@
+# GraphQL schema for AuthProvider
+
+type AuthProvider {
+  provider: String!
+  user_id: Uint64!
+  uid: String!
+  created_at: Timestamp
+  updated_at: Timestamp
+}
+
+input NewAuthProvider {
+  provider: String!
+  user_id: Uint64!
+  uid: String!
+}

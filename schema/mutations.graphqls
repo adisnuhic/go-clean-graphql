@@ -1,0 +1,6 @@
+# GraphQL mutations
+
+type Mutation {
+  registerUser(input: NewRegisterUser!): User!
+  createPost(input: NewPost!): Post!
+}

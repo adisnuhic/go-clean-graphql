@@ -1,0 +1,20 @@
+# GraphQL schema for Tokens
+
+type Token {
+  id: ID!
+  user_id: Uint64!
+  token: String!
+  token_type_id: Uint64!
+  code: String
+  expires_at: Timestamp!
+  created_at: Timestamp
+  updated_at: Timestamp
+}
+
+input NewToken {
+  user_id: Uint64!
+  token: String!
+  token_type_id: Uint64!
+  code: String
+  expires_at: Timestamp!
+}
