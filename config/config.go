@@ -4,6 +4,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/adisnuhic/go-graphql/pkg/utils"
 	"github.com/subosito/gotenv"
 )
 
@@ -48,31 +49,31 @@ func Load() *AppConfig {
 	port := "8080"
 	URL := "http://localhost"
 
-	if os.Getenv("PORT") == "" {
+	if utils.GetEnv("PORT") == "" {
 		os.Setenv("PORT", port)
 	}
-	if os.Getenv("URL") == "" {
+	if utils.GetEnv("URL") == "" {
 		os.Setenv("URL", URL)
 	}
 
 	// customs
-	if os.Getenv("DB_MAX_IDLE_CONNECTIONS") != "" {
-		maxIdleConnections, _ = strconv.Atoi(os.Getenv("DB_MAX_IDLE_CONNECTIONS"))
+	if utils.GetEnv("DB_MAX_IDLE_CONNECTIONS") != "" {
+		maxIdleConnections, _ = strconv.Atoi(utils.GetEnv("DB_MAX_IDLE_CONNECTIONS"))
 	}
 
-	if os.Getenv("DB_MAX_OPEN_CONNECTIONS") != "" {
-		maxOpenConnections, _ = strconv.Atoi(os.Getenv("DB_MAX_OPEN_CONNECTIONS"))
+	if utils.GetEnv("DB_MAX_OPEN_CONNECTIONS") != "" {
+		maxOpenConnections, _ = strconv.Atoi(utils.GetEnv("DB_MAX_OPEN_CONNECTIONS"))
 	}
 
-	if os.Getenv("DB_CONNECTION_MAX_LIFETIME_MINUTES") != "" {
-		maxConnectionsLifetime, _ = strconv.Atoi(os.Getenv("DB_CONNECTION_MAX_LIFETIME_MINUTES"))
+	if utils.GetEnv("DB_CONNECTION_MAX_LIFETIME_MINUTES") != "" {
+		maxConnectionsLifetime, _ = strconv.Atoi(utils.GetEnv("DB_CONNECTION_MAX_LIFETIME_MINUTES"))
 	}
 
 	return &AppConfig{
 		DBConnections: map[string]DBConnection{
 			"development": {
 				DBDialect:         "mysql",
-				DBConnection:      os.Getenv("DB_DEV_CONNECTION"),
+				DBConnection:      utils.GetEnv("DB_DEV_CONNECTION"),
 				DbMaxIdleConns:    maxIdleConnections,
 				DbMaxOpenConns:    maxOpenConnections,
 				DbConnMaxLifetime: maxConnectionsLifetime,
@@ -80,7 +81,7 @@ func Load() *AppConfig {
 			},
 			"production": {
 				DBDialect:         "mysql",
-				DBConnection:      os.Getenv("DB_PROD_CONNECTION"),
+				DBConnection:      utils.GetEnv("DB_PROD_CONNECTION"),
 				DbMaxIdleConns:    maxIdleConnections,
 				DbMaxOpenConns:    maxOpenConnections,
 				DbConnMaxLifetime: maxConnectionsLifetime,
@@ -88,10 +89,10 @@ func Load() *AppConfig {
 			},
 		},
 		JWTConf: JWTConf{
-			Secret: os.Getenv("JWT_SECRET"),
+			Secret: utils.MustGetEnvMin("JWT_SECRET", 32),
 		},
 		Env: Env{
-			Env:  os.Getenv("ENV"),
+			Env:  utils.MustGetEnv("ENV"),
 			Port: port,
 			Url:  URL,
 		},

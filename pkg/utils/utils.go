@@ -3,7 +3,9 @@ package utils
 import (
 	"crypto/rand"
 	"errors"
+	"fmt"
 	"math/big"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -40,4 +42,30 @@ func GenerateNumericCode(length int) (string, error) {
 	}
 
 	return builder.String(), nil
+}
+
+// Get get env variable
+func GetEnv(key string) string {
+	return os.Getenv(key)
+}
+
+// Must get env variable or panic
+func MustGetEnv(key string) string {
+	val := os.Getenv(key)
+	if val == "" {
+		panic("missing required env variable: " + key)
+	}
+	return val
+}
+
+// Mustget get env variable or panic with minimum length check
+func MustGetEnvMin(key string, length int) string {
+	val := os.Getenv(key)
+	if val == "" {
+		panic("missing required env variable: " + key)
+	}
+	if len(val) < length {
+		panic("env variable " + key + " must be at least " + fmt.Sprintf("%v", length) + " characters long")
+	}
+	return val
 }
