@@ -15,3 +15,8 @@ func (r *mutationResolver) RegisterUser(ctx context.Context, input models.NewReg
 func (r *queryResolver) Users(ctx context.Context) ([]*models.User, error) {
 	return r.UserService.GetAll(ctx)
 }
+
+// Posts is the filed level resolver for User
+func (r *userResolver) Posts(ctx context.Context, user *models.User) ([]*models.Post, error) {
+	return r.UserService.GetPostsByUserID(ctx, user.ID)
+}

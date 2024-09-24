@@ -1,12 +1,20 @@
 package services
 
 import (
+	"github.com/adisnuhic/go-graphql/config"
 	"github.com/adisnuhic/go-graphql/internal/repositories"
+
 	"github.com/adisnuhic/go-graphql/pkg/log"
 	"github.com/golobby/container/pkg/container"
 )
 
 var (
+
+	// services
+	authSvc         IAuthService
+	authProviderSvc IAuthProviderService
+
+	// repositories
 	authProviderRepo repositories.IAuthProviderRepository
 	tokenRepo        repositories.ITokenRepository
 	postRepo         repositories.IPostRepository
@@ -17,15 +25,26 @@ var (
 func Init(c container.Container, logger log.ILogger) {
 
 	// Resolve dependencies and return concrete type of given abstractions (for repos)
+
+	// Bind auth service
+	c.Singleton(func() IAuthService {
+		return NewAuthService(config.Load().JWTConf.Secret)
+	})
+
+	// authProvider repository concrete type
 	c.Make(&authProviderRepo)
-	c.Make(&tokenRepo)
-	c.Make(&postRepo)
-	c.Make(&userRepo)
 
 	// Bind auth provider service
 	c.Singleton(func() IAuthProviderService {
 		return NewAuthProviderService(logger, authProviderRepo)
 	})
+
+	c.Make(&authSvc)
+	c.Make(&authProviderSvc)
+
+	c.Make(&tokenRepo)
+	c.Make(&postRepo)
+	c.Make(&userRepo)
 
 	// Bind token service
 	c.Singleton(func() ITokenService {
@@ -39,7 +58,7 @@ func Init(c container.Container, logger log.ILogger) {
 
 	// Bind user service
 	c.Singleton(func() IUserService {
-		return NewUserService(logger, userRepo)
+		return NewUserService(logger, authSvc, authProviderSvc, userRepo, postRepo)
 	})
 
 }

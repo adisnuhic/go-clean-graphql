@@ -7,6 +7,7 @@ toolchain go1.22.7
 require (
 	github.com/99designs/gqlgen v0.17.54
 	github.com/go-sql-driver/mysql v1.8.1
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-migrate/migrate/v4 v4.18.1
 	github.com/golobby/container v1.3.0
 	github.com/jinzhu/gorm v1.9.16
@@ -15,6 +16,7 @@ require (
 	github.com/rs/zerolog v1.33.0
 	github.com/subosito/gotenv v1.6.0
 	github.com/vektah/gqlparser/v2 v2.5.16
+	golang.org/x/crypto v0.27.0
 )
 
 require (

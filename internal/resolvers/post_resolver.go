@@ -15,3 +15,8 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input models.NewPost)
 func (r *queryResolver) Posts(ctx context.Context) ([]*models.Post, error) {
 	return r.PostService.GetAll(ctx)
 }
+
+// User is a field level resolver for Post
+func (r *postResolver) User(ctx context.Context, post *models.Post) (*models.User, error) {
+	return r.PostService.GetUserByPostID(ctx, post.ID)
+}

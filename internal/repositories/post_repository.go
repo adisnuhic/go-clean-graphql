@@ -6,4 +6,5 @@ import models "github.com/adisnuhic/go-graphql/internal/models"
 type IPostRepository interface {
 	Create(post *models.Post) (*models.Post, error)
 	GetAll() ([]*models.Post, error)
+	GetAllByUserID(userID uint64) ([]*models.Post, error)
 }

@@ -19,10 +19,10 @@ model:
 #   package: resolvers
 #   filename_template: "{name}.resolvers.go"
 
-# gqlgen will search for any type names in the schema in these go packages
+# gqlgen will search for any type names (model) in the schema in these go packages
 # if they match it will use them, otherwise it will generate them.
-# autobind:
-#   - "github.com/adisnuhic/go-graphql/internal/models"
+autobind:
+  - "github.com/adisnuhic/go-graphql/internal/models"
 
 # This section declares type mapping between the GraphQL and go type systems
 #
@@ -44,14 +44,14 @@ models:
   Timestamp:
     model:
       - github.com/adisnuhic/go-graphql/internal/scalars.Timestamp
-  # User:
-  #   model: github.com/adisnuhic/go-graphql/internal/models.User
-  # Post:
-  #   model: github.com/adisnuhic/go-graphql/internal/models.Post
-  #   fields:
-  #     user:
-  #       resolver: false
-  # AuthProvider:
-  #   model: github.com/adisnuhic/go-graphql/internal/models.AuthProvider
-  # Token:
-  #   model: github.com/adisnuhic/go-graphql/internal/models.Token
+  User:
+    model:
+      - github.com/adisnuhic/go-graphql/internal/models.User
+    fields:
+      posts:
+        resolver: true
+  Post:
+    model: github.com/adisnuhic/go-graphql/internal/models.Post
+    fields:
+      user:
+        resolver: true

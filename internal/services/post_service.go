@@ -12,6 +12,7 @@ import (
 type IPostService interface {
 	Create(ctx context.Context, input models.NewPost) (*models.Post, error)
 	GetAll(ctx context.Context) ([]*models.Post, error)
+	GetUserByPostID(ctx context.Context, postID uint64) (*models.User, error)
 }
 
 type postService struct {
@@ -50,4 +51,9 @@ func (s *postService) Create(ctx context.Context, input models.NewPost) (*models
 // GetPosts returns all posts
 func (s *postService) GetAll(ctx context.Context) ([]*models.Post, error) {
 	return s.Repository.GetAll()
+}
+
+// GetUserByPostID returns User for provided post ID
+func (s *postService) GetUserByPostID(ctx context.Context, postID uint64) (*models.User, error) {
+	return s.UserRepository.GetByPostID(postID)
 }

@@ -9,6 +9,7 @@ import (
 type IPostRepository interface {
 	Create(post *models.Post) (*models.Post, error)
 	GetAll() ([]*models.Post, error)
+	GetAllByUserID(userID uint64) ([]*models.Post, error)
 }
 
 type postRepository struct {
@@ -34,10 +35,20 @@ func (r *postRepository) Create(post *models.Post) (*models.Post, error) {
 
 // GetAll returns all posts
 func (r *postRepository) GetAll() ([]*models.Post, error) {
-
 	posts := []*models.Post{}
 
 	if err := r.Store.Find(&posts).Error; err != nil {
+		return nil, err
+	}
+
+	return posts, nil
+}
+
+// GetAllByUserID returns all posts for provided userID
+func (r *postRepository) GetAllByUserID(userID uint64) ([]*models.Post, error) {
+	posts := []*models.Post{}
+
+	if err := r.Store.Where("user_id = ?", userID).Find(&posts).Error; err != nil {
 		return nil, err
 	}
 

@@ -10,6 +10,8 @@ type IUserRepository interface {
 	Create(user *models.User) (*models.User, error)
 	GetAll() ([]*models.User, error)
 	GetByID(userID uint64) (*models.User, error)
+	GetByEmail(email string) (*models.User, error)
+	GetByPostID(postID uint64) (*models.User, error)
 }
 
 type userRepository struct {
@@ -49,6 +51,31 @@ func (r *userRepository) GetByID(userID uint64) (*models.User, error) {
 	user := &models.User{}
 
 	if err := r.Store.Where("id = ?", userID).Find(&user).Error; err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+// GetByEmail returns user for provided ID
+func (r *userRepository) GetByEmail(email string) (*models.User, error) {
+	user := &models.User{}
+
+	if err := r.Store.Where("email = ?", email).Find(&user).Error; err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+// GetByPostID returns user for provided post ID
+func (r *userRepository) GetByPostID(postID uint64) (*models.User, error) {
+	user := &models.User{}
+
+	if err := r.Store.
+		Joins("INNER JOIN posts ON posts.user_id = users.id").
+		Where("posts.id = ?", postID).
+		Find(&user).Error; err != nil {
 		return nil, err
 	}
 

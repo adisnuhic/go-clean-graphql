@@ -28,3 +28,12 @@ func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+
+// Field level resolvers
+type userResolver struct{ *Resolver }
+
+func (r *Resolver) User() graph.UserResolver { return &userResolver{r} }
+
+type postResolver struct{ *Resolver }
+
+func (r *Resolver) Post() graph.PostResolver { return &postResolver{r} }
