@@ -34,9 +34,6 @@ The key point in Clean Architecture is that the inner layers (use cases/entities
 
 **Some Notes**: In this project i was using DI (dependency injection) container for managing and handling dependencies between various components of an application.
 
-For logging i was using zerolog. Since service layer should not depend on any external packages, frameworks etc. I was using adapter pattern so it depends on interface.
-If you want to replace zerolog with some other package you can do it, all you need to do is to implement the interface and the methods regarding that package.
-
 **Terminology**: Some terminology may differ from team to team
 
 - Domain / Model / Entity
